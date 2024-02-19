@@ -25,6 +25,7 @@ jobs:
         with:
           tag: "v${{ inputs.tag }}"
           tag_exists_error: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "Release v${{ inputs.tag }}"
 
   releasing:
