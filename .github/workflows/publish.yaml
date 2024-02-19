@@ -13,8 +13,22 @@ on:
         required: true
     
 jobs:
-  release:
+
+  tagging:
+    name: Create Tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create tag
+        shell: bash
+        run: |
+          - git tag -am "Tagging for release v${{ inputs.tag }}" v${{ inputs.tag }}
+          - git push origin v${{ inputs.tag }}
+
+  releasing:
     name: Create Release
+    needs: [tagging]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +48,7 @@ jobs:
 
   build-and-publish:
     name: Build and publish docker image
-    needs: [release]
+    needs: [releasing]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code tag ${{ inputs.tag }}
