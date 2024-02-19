@@ -33,6 +33,8 @@ jobs:
           prerelease: false  
 
   build-and-publish:
+    name: Build and publish docker image
+    needs: [release]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code tag ${{ inputs.tag }}
