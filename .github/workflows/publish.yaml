@@ -20,13 +20,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Create tag
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "v${{ inputs.tag }}"
-          tag_exists_error: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: "Release v${{ inputs.tag }}"
+      - name: Push Git Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag -am "Tagging for release v${{ inputs.tag }}" v${{ inputs.tag }}
+          git push origin v${{ inputs.tag }}
 
   releasing:
     name: Create Release
